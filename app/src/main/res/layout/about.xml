@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+<ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/version"
+        android:textSize="10sp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/tvVersion"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Разработил: Деян Димитров 14210"
+        android:textSize="20sp"
+        android:id="@+id/tvDev"
+        android:layout_below="@+id/ivLogo"
+        android:gravity="center"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="64sp"
+        android:layout_height="64sp"
+        android:id="@+id/ibT"
+        android:paddingTop="10dp"
+        android:src="@drawable/telegram"
+        android:scaleType="fitCenter"
+        android:background="@null"
+        android:layout_below="@+id/tvDev"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivLogo"
+        android:src="@drawable/logo2"
+        android:layout_below="@+id/tvVersion"
+        android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+</ScrollView>
+</RelativeLayout>
