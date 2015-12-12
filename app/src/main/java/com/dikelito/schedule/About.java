@@ -15,9 +15,9 @@ import android.widget.Toast;
 
 public class About extends Activity {
 
-    ImageButton ibT; //Telegram logo
-    ImageView ivLogo; // UKTC logo
-    MediaPlayer uktc; // UKTC sound
+    ImageButton ibT;
+    ImageView ivLogo;
+    MediaPlayer uktc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
