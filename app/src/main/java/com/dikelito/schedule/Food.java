@@ -27,8 +27,6 @@ public class Food extends Activity {
 
     MenuItem item;
     ImageView iv;
-    AdView mAdView;
-    AdRequest adRequest;
     private MenuItem menuItem;
     boolean isRefreshing = false;
     boolean isConnected = false;
@@ -44,9 +42,6 @@ public class Food extends Activity {
         setContentView(R.layout.food);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setTitle("Седмично меню");
-        mAdView = (AdView) findViewById(R.id.adView);
-        adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
         iv = (ImageView) findViewById(R.id.iv);
         cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if(cm.getActiveNetworkInfo() != null){
@@ -129,18 +124,15 @@ public class Food extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        mAdView.resume();
     }
 
     @Override
     public void onPause() {
-        mAdView.pause();
         super.onPause();
     }
 
     @Override
     public void onDestroy() {
-        mAdView.destroy();
         super.onDestroy();
     }
 

@@ -19,8 +19,6 @@ public class Schedule extends Activity {
     MenuItem item;
     ImageView iv;
     String sdl;
-    AdView mAdView;
-    AdRequest adRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +26,6 @@ public class Schedule extends Activity {
         setContentView(R.layout.schedule);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setTitle("Курс " + cls);
-        mAdView = (AdView) findViewById(R.id.adView);
-        adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
         iv = (ImageView) findViewById(R.id.iv);
         sdl = "s" + cls;
         String uri = "drawable/" + sdl;
@@ -54,18 +49,15 @@ public class Schedule extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        mAdView.resume();
     }
 
     @Override
     public void onPause() {
-        mAdView.pause();
         super.onPause();
     }
 
     @Override
     public void onDestroy() {
-        mAdView.destroy();
         super.onDestroy();
     }
 
