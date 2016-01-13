@@ -25,7 +25,7 @@ public class Menu extends ListActivity {
     String classes[] = {"151", "152", "153", "154", "155", "141", "142", "143", "144", "131", "132",
             "133", "134", "121", "122", "123", "111", "112", "113", "114"};
     String ncls;
-    String email = "dikelito@gmail.com";
+    String email = "dikelito@tutamail.com";
     String emailAddress[] = {email};
 
     @Override

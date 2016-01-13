@@ -5,14 +5,14 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent">
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/version"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:layout_marginTop="10dp"
         android:id="@+id/tvVersion"
         android:layout_centerHorizontal="true" />
@@ -20,8 +20,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Разработил: Деян Димитров 14210"
-        android:textSize="20sp"
+        android:text="@string/developer"
+        android:textSize="24sp"
+        android:layout_marginLeft="8sp"
+        android:layout_marginRight="8sp"
         android:id="@+id/tvDev"
         android:layout_below="@+id/ivLogo"
         android:gravity="center"
@@ -45,6 +47,16 @@
         android:src="@drawable/logo2"
         android:layout_below="@+id/tvVersion"
         android:layout_centerHorizontal="true" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ibT"
+            android:layout_marginTop="16sp"
+            android:layout_marginLeft="8sp"
+            android:layout_marginRight="8sp"
+            android:textSize="16sp"
+            android:text="@string/trademark"/>
+
     </RelativeLayout>
 </ScrollView>
-</RelativeLayout>
+    </RelativeLayout>
