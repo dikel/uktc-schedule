@@ -2,8 +2,10 @@ package com.dikelito.schedule;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.webkit.WebView;
+import android.webkit.WebViewDatabase;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -24,10 +26,20 @@ public class Grades extends Activity {
         wv.setWebViewClient(new wvClient());
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.grades_activity_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                return true;
+            case R.id.clearData:
+                WebViewDatabase.getInstance(this).clearFormData();
                 return true;
         }
         return super.onOptionsItemSelected(item);
