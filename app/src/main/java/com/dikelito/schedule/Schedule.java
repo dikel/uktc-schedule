@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -16,17 +17,21 @@ public class Schedule extends Activity {
     public static String cls;
     public static String scls;
     SharedPreferences sharedPreferences;
-    MenuItem item;
-    ImageView iv;
+    MenuItem item, itemTime;
+    ImageView iv, ivTime;
     String sdl;
+    boolean showTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schedule);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        showTime = sharedPreferences.getBoolean("showTime", true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setTitle("Курс " + cls);
         iv = (ImageView) findViewById(R.id.iv);
+        ivTime = (ImageView) findViewById(R.id.time);
         sdl = "s" + cls;
         String uri = "drawable/" + sdl;
         int imageResource = this.getResources().getIdentifier(uri, null, this.getPackageName());
@@ -42,6 +47,14 @@ public class Schedule extends Activity {
             item.setTitle("Стартирай първоначално");
         }else if(scls.equals(cls)){
             item.setTitle("Не стартирай първоначално");
+        }
+        itemTime = menu.findItem(R.id.time);
+        if(showTime == true){
+            ivTime.setVisibility(View.VISIBLE);
+            itemTime.setTitle("Скрий лентата с часове");
+        }else{
+            ivTime.setVisibility(View.INVISIBLE);
+            itemTime.setTitle("Покажи лентата с часове");
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -85,6 +98,23 @@ public class Schedule extends Activity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.putString("scls", scls);
+                editor.putBoolean("showTime", showTime);
+                editor.apply();
+                return true;
+            case R.id.time:
+                if(showTime){
+                    ivTime.setVisibility(View.INVISIBLE);
+                    item.setTitle("Покажи лентата с часове");
+                }else{
+                    ivTime.setVisibility(View.VISIBLE);
+                    item.setTitle("Скрий лентата с часове");
+                }
+                showTime = !showTime;
+                sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                editor = sharedPreferences.edit();
+                editor.clear();
+                editor.putString("scls", scls);
+                editor.putBoolean("showTime", showTime);
                 editor.apply();
                 return true;
         }

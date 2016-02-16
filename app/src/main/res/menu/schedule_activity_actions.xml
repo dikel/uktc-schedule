@@ -10,6 +10,10 @@
                 android:id="@+id/main"
                 android:showAsAction="never"
                 android:title="Стартирай програмата по подразбиране"/>
+            <item
+                android:id="@+id/time"
+                android:showAsAction="never"
+                android:title="Скрий лентата с часове"/>
         </menu>
     </item>
 </menu>
