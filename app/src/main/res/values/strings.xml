@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Програма</string>
-    <string name="version">Версия 16.02.15</string>
-    <string name="developer">Разработил:\nДеян Димитров 14210</string>
+    <string name="version">Версия 16.10</string>
+    <string name="developer">Напрайл:\nДеян Димитров 14210</string>
+    <string name="support">\nС тенкю към:\nБиляна Борисова 14203\n\nХардуерен сАпорт:\nИван \'ErethoroN\' Спасов 14213\n</string>
     <string name="trademark">ПГ по КТС и логото на ПГ по КТС са запазена марка на ПГ по КТС - гр. Правец.</string>
 </resources>

@@ -7,10 +7,8 @@ import android.preference.PreferenceManager;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 public class Schedule extends Activity {
 
@@ -20,21 +18,25 @@ public class Schedule extends Activity {
     MenuItem item, itemTime;
     ImageView iv, ivTime;
     String sdl;
-    boolean showTime = true;
+    boolean showTime = false;
+    int imageResource;
+    String uri;
+    HorizontalScrollView sv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schedule);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        showTime = sharedPreferences.getBoolean("showTime", true);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        showTime = sharedPreferences.getBoolean("showTime", false);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setTitle("Курс " + cls);
         iv = (ImageView) findViewById(R.id.iv);
         ivTime = (ImageView) findViewById(R.id.time);
+        sv = (HorizontalScrollView) findViewById(R.id.sv);
         sdl = "s" + cls;
-        String uri = "drawable/" + sdl;
-        int imageResource = this.getResources().getIdentifier(uri, null, this.getPackageName());
+        uri = "@drawable/" + sdl;
+        imageResource = getResources().getIdentifier(uri, null, getPackageName());
         iv.setImageResource(imageResource);
     }
 
@@ -49,7 +51,7 @@ public class Schedule extends Activity {
             item.setTitle("Не стартирай първоначално");
         }
         itemTime = menu.findItem(R.id.time);
-        if(showTime == true){
+        if(showTime){
             ivTime.setVisibility(View.VISIBLE);
             itemTime.setTitle("Скрий лентата с часове");
         }else{
@@ -58,7 +60,6 @@ public class Schedule extends Activity {
         }
         return super.onCreateOptionsMenu(menu);
     }
-
     @Override
     public void onResume() {
         super.onResume();

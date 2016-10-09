@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
 <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent">
     <RelativeLayout
@@ -33,12 +32,23 @@
         android:layout_width="64sp"
         android:layout_height="64sp"
         android:id="@+id/ibT"
-        android:paddingTop="10dp"
+        android:paddingTop="8dp"
         android:src="@drawable/telegram"
         android:scaleType="fitCenter"
         android:background="@null"
         android:layout_below="@+id/tvDev"
         android:layout_centerHorizontal="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/support"
+            android:textSize="24sp"
+            android:layout_marginLeft="8sp"
+            android:layout_marginRight="8sp"
+            android:id="@+id/tvSup"
+            android:layout_below="@+id/ibT"
+            android:gravity="center"
+            android:layout_centerHorizontal="true" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -50,7 +60,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ibT"
+            android:layout_below="@+id/tvSup"
             android:layout_marginTop="16sp"
             android:layout_marginLeft="8sp"
             android:layout_marginRight="8sp"
@@ -59,4 +69,3 @@
 
     </RelativeLayout>
 </ScrollView>
-    </RelativeLayout>

@@ -7,9 +7,6 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewDatabase;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 public class Grades extends Activity {
 
     WebView wv;
