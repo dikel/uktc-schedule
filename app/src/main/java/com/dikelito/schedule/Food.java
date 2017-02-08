@@ -30,7 +30,7 @@ public class Food extends Activity {
     NetworkInfo ni;
     //Link to the menu
     String uRl = "https://docs.google.com/drawings/d/1qbytuwAifEZo2oIABryKSRYr1BucZEHSlL-6rsUQmAQ/pub?w=1920&h=1080";
-    File image = new File(Environment.getExternalStorageDirectory() + "/Download", "food_menu.png");
+    File image = new File(Environment.getExternalStorageDirectory() + "/Download/uktc-schedule", "food_menu.png");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +43,7 @@ public class Food extends Activity {
         if(cm.getActiveNetworkInfo() != null){
             ni = cm.getActiveNetworkInfo();
             isConnected = true; //There is internet connection
-        }
-        else isConnected = false; //There isn't internet connection
+        }else isConnected = false; //There isn't internet connection
         //If the image is downloaded open it
         if(image.exists()){
             Bitmap myBitmap = BitmapFactory.decodeFile(image.getAbsolutePath());
@@ -102,7 +101,7 @@ public class Food extends Activity {
                             | DownloadManager.Request.NETWORK_MOBILE)
                     .setAllowedOverRoaming(false).setTitle("food_menu.png")
                     .setDescription("Food Menu")
-                    .setDestinationInExternalPublicDir("/Download", "food_menu.png");
+                    .setDestinationInExternalPublicDir("/Download/uktc-schedule", "food_menu.png");
 
             mgr.enqueue(request);
             return mIcon11;
@@ -115,21 +114,6 @@ public class Food extends Activity {
                 menuItem.setActionView(null);
             }
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
