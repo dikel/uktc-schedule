@@ -8,8 +8,8 @@ android {
         applicationId "com.dikelito.schedule"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 18
-        versionName "17.02.1"
+        versionCode 19
+        versionName "17.02.2"
     }
     buildTypes {
         release {
