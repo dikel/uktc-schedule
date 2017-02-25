@@ -8,8 +8,8 @@ android {
         applicationId "com.dikelito.schedule"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 20
-        versionName "17.02.3"
+        versionCode 21
+        versionName "17.02.4"
     }
     buildTypes {
         release {
@@ -21,5 +21,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v4:25.1.1'
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:design:25.1.1'
 }

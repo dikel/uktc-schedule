@@ -1,13 +1,13 @@
 package com.dikelito.schedule;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewDatabase;
 
-public class Grades extends Activity {
+public class Grades extends AppCompatActivity {
 
     WebView wv;
 
@@ -15,8 +15,8 @@ public class Grades extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grades);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle("Електронен дневник");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Електронен дневник");
         wv = (WebView) findViewById(R.id.wvGrades);
         wv.loadUrl("http://my.uktc-bg.com/");
         wv.getSettings().setJavaScriptEnabled(true);
@@ -40,20 +40,5 @@ public class Grades extends Activity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 }

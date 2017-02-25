@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".Menu"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize">
             <intent-filter>
@@ -25,10 +25,11 @@
         <activity
             android:name=".Schedule"
             android:label="@string/app_name"
-            android:parentActivityName="com.dikelito.schedule.Menu">
+            android:parentActivityName="com.dikelito.schedule.MainActivity"
+            android:theme="@style/AppTheme.DarkActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dikelito.schedule.Menu" />
+                android:value="com.dikelito.schedule.MainActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -37,10 +38,11 @@
         <activity
             android:name=".About"
             android:label="@string/app_name"
-            android:parentActivityName="com.dikelito.schedule.Menu">
+            android:parentActivityName="com.dikelito.schedule.MainActivity"
+            android:theme="@style/AppTheme.DarkActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dikelito.schedule.Menu" />
+                android:value="com.dikelito.schedule.MainActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -49,10 +51,11 @@
         <activity
             android:name=".Food"
             android:label="@string/app_name"
-            android:parentActivityName="com.dikelito.schedule.Menu">
+            android:parentActivityName="com.dikelito.schedule.MainActivity"
+            android:theme="@style/AppTheme.DarkActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dikelito.schedule.Menu" />
+                android:value="com.dikelito.schedule.MainActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -61,10 +64,11 @@
         <activity
             android:name=".Grades"
             android:label="@string/app_name"
-            android:parentActivityName="com.dikelito.schedule.Menu">
+            android:parentActivityName="com.dikelito.schedule.MainActivity"
+            android:theme="@style/AppTheme.DarkActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dikelito.schedule.Menu" />
+                android:value="com.dikelito.schedule.MainActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />

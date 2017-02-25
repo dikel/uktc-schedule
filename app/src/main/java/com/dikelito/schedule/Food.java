@@ -1,6 +1,5 @@
 package com.dikelito.schedule;
 
-import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,7 +19,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.InputStream;
 
-public class Food extends Activity {
+public class Food extends AppCompatActivity {
 
     MenuItem item;
     ImageView iv;
@@ -36,8 +36,8 @@ public class Food extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.food);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle("Седмично меню");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Седмично меню");
         iv = (ImageView) findViewById(R.id.iv);
         cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if(cm.getActiveNetworkInfo() != null){

@@ -1,16 +1,16 @@
 package com.dikelito.schedule;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-public class About extends Activity {
+public class About extends AppCompatActivity {
 
     ImageButton ibT;
     ImageView ivLogo;
@@ -20,7 +20,8 @@ public class About extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         ivLogo = (ImageView) findViewById(R.id.ivLogo);
         uktc = MediaPlayer.create(About.this, R.raw.uktc);
         //Start UKTC sound when UKTC logo is held
