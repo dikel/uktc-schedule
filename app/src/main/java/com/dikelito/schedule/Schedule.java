@@ -23,17 +23,17 @@ public class Schedule extends AppCompatActivity {
     int imageResource;
     String uri;
     HorizontalScrollView sv;
-    final String teachers_filenames[] = {"valeri_kolev", "valeri_stefanov", "veneta_bojinova",
-            "rumyana_lazarova", "nina_bayacheva", "emilia_donkova", "dimcho_danov", "ivanka_mancheva",
-            "ivanka_nencheva", "ivo_tsuklev", "ina_georgieva", "kiril_tonchev", "margarita_gavrilova",
-            "gergana_muhovska", "mariana_manoeva", "nedelcho_nedyalkov", "nikolai_sirakov", "ognyan_nakov",
-            "radka_yordanova", "siika_tseneva", "stefan_stefanov", "stefan_tsenov", "trifon_trifonov",
-            "tsetsa_tsolova", "maria_petkova", "paulina_tsvetkova", "petya_misheva", "boriana_dimitrova",
-            "neli_sirakova", "valia_vladimirova", "tsvetomir_georgiev", "rumen_trifonov", "vladimir_dimitrov",
-            "natalia_doncheva", "tatyana_ivanova", "darin_vasilev", "lidya_rashkova", "galya_bojinova",
-            "penka_tomova", "pavlin_petkov", "vencislav_nachev", "yavor_tomov", "daniela_gotseva",
-            "valentin_hristov", "krasimir_iliev", "petur_marinov", "tencho_gochev", "milena_lazarova",
-            "momchil_petkov", "elena_purvanova", "kostadin_kostadinov", "vasil_tsanov", "none", "nikolai_boshkov"};
+    final String teachers_filenames[] = {"trifon_trifonov", "nedelcho_nedyalkov", "radka_yordanova",
+            "valeri_kolev", "veneta_bojinova", "nina_bayacheva", "stefan_tsenov", "tsvetomir_georgiev",
+            "krasimir_iliev", "valia_vladimirova", "darin_vasilev", "vencislav_nachev", "siika_tseneva",
+            "hristina_ivanova", "marian_naidenov", "yanita_stoyanova", "rumyana_lazarova", "dimcho_danov",
+            "ivanka_mancheva", "ivanka_nencheva", "ivo_tsuklev", "ina_georgieva", "valeri_stefanov",
+            "kiril_tonchev", "stefan_stefanov", "maria_hristova", "gergana_muhovska", "paulina_tsvetkova",
+            "natalia_doncheva", "maria_petkova", "galya_bojinova", "boriana_dimitrova", "nikolai_sirakov",
+            "neli_sirakova", "penka_tomova", "tsetsa_tsolova", "miglena_vicheva", "tatyana_ivanova",
+            "lidya_rashkova", "lili_buncheva", "rumen_trifonov", "vladimir_dimitrov", "yavor_tomov",
+            "daniela_gotseva", "valentin_hristov", "tencho_gochev", "milena_lazarova", "momchil_petkov",
+            "elena_purvanova", "kostadin_kostadinov", "nikolai_boshkov", "elizabet_mihailova", "petko_danov", "valentina_radoslavova"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -9,7 +9,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuInflater;
@@ -29,13 +28,15 @@ public class Food extends AppCompatActivity {
     ConnectivityManager cm;
     NetworkInfo ni;
     //Link to the menu
-    String uRl = "https://docs.google.com/drawings/d/1qbytuwAifEZo2oIABryKSRYr1BucZEHSlL-6rsUQmAQ/pub?w=1920&h=1080";
-    File image = new File(Environment.getExternalStorageDirectory() + "/Download/uktc-schedule", "food_menu.png");
+    final String uRl = "https://docs.google.com/drawings/d/1qbytuwAifEZo2oIABryKSRYr1BucZEHSlL-6rsUQmAQ/pub?w=1920&h=1080";
+    final String OFFLINE_MESSAGE = "Трябва да имате връзка с интернет. След като веднъж сте се свързали, менюто ще бъде " +
+            "запазено на устройството ви и ще можете да го виждате дори и когато сте офлайн.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.food);
+        File image = new File(getExternalFilesDir(null), "food_menu.png");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Седмично меню");
         iv = (ImageView) findViewById(R.id.iv);
@@ -43,18 +44,18 @@ public class Food extends AppCompatActivity {
         if(cm.getActiveNetworkInfo() != null){
             ni = cm.getActiveNetworkInfo();
             isConnected = true; //There is internet connection
-        }else isConnected = false; //There isn't internet connection
+        }else {
+            isConnected = false; //There isn't internet connection
+        }
         //If the image is downloaded open it
         if(image.exists()){
             Bitmap myBitmap = BitmapFactory.decodeFile(image.getAbsolutePath());
             iv.setImageBitmap(myBitmap);
         }else{
             if(isConnected){
-                new DownloadImageTask(iv, uRl, image).execute("https://docs.google.com/drawings/d/1qbytuwAifEZo2oIABryKSRYr1BucZEHSlL-6rsUQmAQ/pub?w=1920&h=1080");
+                new DownloadImageTask(iv, uRl, image).execute(uRl);
             }else{
-                Toast.makeText(this, "Трябва да имате връзка с интернет. След като веднъж сте се свързали," +
-                        " менюто ще бъде запазено на устройството ви и ще можете да го виждате дори" +
-                        " и когато сте офлайн.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, OFFLINE_MESSAGE, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -101,7 +102,7 @@ public class Food extends AppCompatActivity {
                             | DownloadManager.Request.NETWORK_MOBILE)
                     .setAllowedOverRoaming(false).setTitle("food_menu.png")
                     .setDescription("Food Menu")
-                    .setDestinationInExternalPublicDir("/Download/uktc-schedule", "food_menu.png");
+                    .setDestinationInExternalFilesDir(getApplicationContext(), "/", "food_menu.png");
 
             mgr.enqueue(request);
             return mIcon11;
@@ -131,11 +132,10 @@ public class Food extends AppCompatActivity {
                     isConnected = true;
                 }
                 if(isConnected){
-                    new DownloadImageTask(iv, uRl, image).execute("https://docs.google.com/drawings/d/1qbytuwAifEZo2oIABryKSRYr1BucZEHSlL-6rsUQmAQ/pub?w=1920&h=1080");
+                    File image = new File(getExternalFilesDir(null), "food_menu.png");
+                    new DownloadImageTask(iv, uRl, image).execute(uRl);
                 }else{
-                    Toast.makeText(this, "Трябва да имате връзка с интернет. След като веднъж сте се свързали," +
-                            " менюто ще бъде запазено на устройството ви и ще можете да го виждате дори" +
-                            " и когато сте офлайн.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, OFFLINE_MESSAGE, Toast.LENGTH_LONG).show();
                     menuItem.collapseActionView();
                     menuItem.setActionView(null);
                 }

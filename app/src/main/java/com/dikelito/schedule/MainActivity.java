@@ -2,14 +2,19 @@ package com.dikelito.schedule;
 
 import android.Manifest;
 import android.app.SearchManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -24,13 +29,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private SearchView mSearchView;
-    String emailAddress[] = {"dikelito@tutamail.com"};
+    final String emailAddress[] = {"dikelito@tutamail.com"};
     SharedPreferences sharedPreferences;
 
     @Override
@@ -56,27 +63,24 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         if (android.os.Build.VERSION.SDK_INT >= 23){
             int hasReadPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             if (hasReadPermission != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        10);
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10);
             }
         }
     }
 
     private void setupSearchView(MenuItem searchItem) {
-
         if (isAlwaysExpanded()) {
             mSearchView.setIconifiedByDefault(false);
         } else {
             searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM
                     | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
         }
-
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setQueryHint("Търси Учител");
-
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -116,6 +120,26 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             case R.id.grades:
                 startActivity(new Intent(MainActivity.this, Grades.class));
                 return true;
+            case R.id.donate:
+                AlertDialog.Builder builder;
+                View dialog = LayoutInflater.from(this).inflate(R.layout.donate_dialog, null);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_NoActionBar);
+                } else {
+                    builder = new AlertDialog.Builder(this);
+                }
+                builder.setView(dialog).show();
+                ImageView qrCode = dialog.findViewById(R.id.qrCodeImg);
+                qrCode.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("qrCode", "DA1wN7UZHEiqxGXYrY6DZw76rMqyr9WJM4");
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(getApplicationContext(), "Адресът е копиран!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -133,27 +157,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     protected boolean isAlwaysExpanded() {
         return false;
-    }
-
-    public static class PlaceholderFragment extends Fragment {
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.activity_main, container, false);
-            return rootView;
-        }
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

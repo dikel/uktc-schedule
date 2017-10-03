@@ -29,4 +29,8 @@
                 android:id="@+id/feedback"
                 android:showAsAction="never"
                 android:title="Напишете отзив"/>
+            <item
+                android:id="@+id/donate"
+                android:showAsAction="never"
+                android:title="Дарете PIVX"/>
 </menu>

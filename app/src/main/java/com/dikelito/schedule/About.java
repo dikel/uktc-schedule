@@ -22,6 +22,20 @@ public class About extends AppCompatActivity {
         setContentView(R.layout.about);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        Initialize();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void Initialize() {
         ivLogo = (ImageView) findViewById(R.id.ivLogo);
         uktc = MediaPlayer.create(About.this, R.raw.uktc);
         //Start UKTC sound when UKTC logo is held
@@ -40,14 +54,5 @@ public class About extends AppCompatActivity {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://telegram.me/dikelito")));
             }
         });
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
