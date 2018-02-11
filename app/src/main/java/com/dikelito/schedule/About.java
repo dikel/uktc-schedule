@@ -1,9 +1,11 @@
 package com.dikelito.schedule;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,13 @@ public class About extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int theme = sharedPreferences.getInt("Theme", R.style.AppTheme);
+        if(theme == R.style.AppThemeDark) {
+            setTheme(R.style.AppThemeDark_DarkActionBar);
+        } else {
+            setTheme(R.style.AppTheme_DarkActionBar);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

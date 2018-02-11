@@ -2,13 +2,19 @@ package com.dikelito.schedule;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuInflater;
@@ -34,6 +40,13 @@ public class Food extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int theme = sharedPreferences.getInt("Theme", R.style.AppTheme);
+        if(theme == R.style.AppThemeDark) {
+            setTheme(R.style.AppThemeDark_DarkActionBar);
+        } else {
+            setTheme(R.style.AppTheme_DarkActionBar);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.food);
         File image = new File(getExternalFilesDir(null), "food_menu.png");
@@ -50,6 +63,9 @@ public class Food extends AppCompatActivity {
         //If the image is downloaded open it
         if(image.exists()){
             Bitmap myBitmap = BitmapFactory.decodeFile(image.getAbsolutePath());
+            if (theme == R.style.AppThemeDark) {
+                myBitmap = changeBitmapContrastBrightness(myBitmap, 1, -63);
+            }
             iv.setImageBitmap(myBitmap);
         }else{
             if(isConnected){
@@ -144,5 +160,26 @@ public class Food extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static Bitmap changeBitmapContrastBrightness(Bitmap bmp, float contrast, float brightness)
+    {
+        ColorMatrix cm = new ColorMatrix(new float[]
+                {
+                        contrast, 0, 0, 0, brightness,
+                        0, contrast, 0, 0, brightness,
+                        0, 0, contrast, 0, brightness,
+                        0, 0, 0, 1, 0
+                });
+
+        Bitmap ret = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), bmp.getConfig());
+
+        Canvas canvas = new Canvas(ret);
+
+        Paint paint = new Paint();
+        paint.setColorFilter(new ColorMatrixColorFilter(cm));
+        canvas.drawBitmap(bmp, 0, 0, paint);
+
+        return ret;
     }
 }

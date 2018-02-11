@@ -1,6 +1,13 @@
 package com.dikelito.schedule;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,55 +17,67 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 
+import java.io.File;
+
 public class Schedule extends AppCompatActivity {
 
-    public static String thing;
-    public static String cls;
-    public static String scls;
-    public static int num;
     SharedPreferences sharedPreferences;
     MenuItem item, itemTime;
     ImageView iv, ivTime;
-    boolean showTime = false;
-    int imageResource;
-    String uri;
     HorizontalScrollView sv;
-    final String teachers_filenames[] = {"trifon_trifonov", "nedelcho_nedyalkov", "radka_yordanova",
-            "valeri_kolev", "veneta_bojinova", "nina_bayacheva", "stefan_tsenov", "tsvetomir_georgiev",
-            "krasimir_iliev", "valia_vladimirova", "darin_vasilev", "vencislav_nachev", "siika_tseneva",
-            "hristina_ivanova", "marian_naidenov", "yanita_stoyanova", "rumyana_lazarova", "dimcho_danov",
-            "ivanka_mancheva", "ivanka_nencheva", "ivo_tsuklev", "ina_georgieva", "valeri_stefanov",
-            "kiril_tonchev", "stefan_stefanov", "maria_hristova", "gergana_muhovska", "paulina_tsvetkova",
-            "natalia_doncheva", "maria_petkova", "galya_bojinova", "boriana_dimitrova", "nikolai_sirakov",
-            "neli_sirakova", "penka_tomova", "tsetsa_tsolova", "miglena_vicheva", "tatyana_ivanova",
-            "lidya_rashkova", "lili_buncheva", "rumen_trifonov", "vladimir_dimitrov", "yavor_tomov",
-            "daniela_gotseva", "valentin_hristov", "tencho_gochev", "milena_lazarova", "momchil_petkov",
-            "elena_purvanova", "kostadin_kostadinov", "nikolai_boshkov", "elizabet_mihailova", "petko_danov", "valentina_radoslavova"};
+
+    String name, type, defaultSchedule, teacherName;
+    boolean showTime = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int theme = sharedPreferences.getInt("Theme", R.style.AppTheme);
+        if (theme == R.style.AppThemeDark) {
+            setTheme(R.style.AppThemeDark_DarkActionBar);
+        } else {
+            setTheme(R.style.AppTheme_DarkActionBar);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schedule);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        showTime = sharedPreferences.getBoolean("showTime", false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(thing + " " + cls);
+
         iv = (ImageView) findViewById(R.id.iv);
         ivTime = (ImageView) findViewById(R.id.time);
-        sv = (HorizontalScrollView) findViewById(R.id.sv);
-        switch (thing){
-            case "Курс":
-                uri = "@drawable/s" + cls;
+
+        Bundle bundle = getIntent().getExtras();
+        type = bundle.getString("type");
+        name = bundle.getString("name");
+
+        String title = null;
+        switch (type) {
+            case "students":
+                title = "Курс " + name.replace("s", "");
                 break;
-            case "Стая":
-                uri = "@drawable/r" + cls;
+            case "teachers":
+                teacherName = bundle.getString("teacherName");
+                title = "Учител " + teacherName;
                 break;
-            case "Учител":
-                uri = "@drawable/" + teachers_filenames[num];
+            case "rooms":
+                title = "Стая " + name.replace("r", "");
                 break;
         }
-        imageResource = getResources().getIdentifier(uri, null, getPackageName());
-        iv.setImageResource(imageResource);
+        getSupportActionBar().setTitle(title);
+
+        File file = new File(this.getExternalFilesDir(null) + "/" + type, name + ".png");
+        Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        Bitmap timeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.time);
+        if (theme == R.style.AppThemeDark) {
+            myBitmap = changeBitmapContrastBrightness(myBitmap, 1, -127);
+            timeBitmap = changeBitmapContrastBrightness(timeBitmap, 1, -127);
+        }
+        iv.setImageBitmap(myBitmap);
+        ivTime.setImageBitmap(timeBitmap);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        defaultSchedule = sharedPreferences.getString("defaultSchedule", null);
+        showTime = sharedPreferences.getBoolean("showTime", false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        sv = (HorizontalScrollView) findViewById(R.id.sv);
     }
 
     @Override
@@ -66,16 +85,16 @@ public class Schedule extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.schedule_activity_actions, menu);
         item = menu.findItem(R.id.main);
-        if(scls == null || !scls.equals(cls)){
-            item.setTitle("Стартирай първоначално");
-        }else{
+        if (name.equals(defaultSchedule)) {
             item.setTitle("Не стартирай първоначално");
+        } else {
+            item.setTitle("Стартирай първоначално");
         }
         itemTime = menu.findItem(R.id.time);
-        if(showTime){
+        if (showTime) {
             ivTime.setVisibility(View.VISIBLE);
             itemTime.setTitle("Скрий лентата с часове");
-        }else{
+        } else {
             ivTime.setVisibility(View.GONE);
             itemTime.setTitle("Покажи лентата с часове");
         }
@@ -89,41 +108,63 @@ public class Schedule extends AppCompatActivity {
                 onBackPressed();
                 return true;
             case R.id.main:
-                if(scls == null || !scls.equals(cls)){
-                    scls = cls;
-                    item.setTitle("Не стартирай първоначално");
-                }else{
-                    scls = null;
+                if (name.equals(defaultSchedule)) {
+                    defaultSchedule = null;
                     item.setTitle("Стартирай първоначално");
+                } else {
+                    defaultSchedule = name;
+                    item.setTitle("Не стартирай първоначално");
                 }
-                sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.clear();
-                editor.putString("thing", thing);
-                editor.putString("scls", scls);
-                editor.putInt("num", num);
-                editor.putBoolean("showTime", showTime);
+                editor.putString("defaultSchedule", defaultSchedule);
+                editor.putString("type", type);
+                if (type.equals("teachers")) {
+                    editor.putString("teacherName", teacherName);
+                }
                 editor.apply();
                 return true;
             case R.id.time:
-                if(showTime){
+                if (showTime) {
                     ivTime.setVisibility(View.GONE);
                     item.setTitle("Покажи лентата с часове");
-                }else{
+                } else {
                     ivTime.setVisibility(View.VISIBLE);
                     item.setTitle("Скрий лентата с часове");
                 }
                 showTime = !showTime;
                 sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                 editor = sharedPreferences.edit();
-                editor.clear();
-                editor.putString("thing", thing);
-                editor.putString("scls", scls);
-                editor.putInt("num", num);
                 editor.putBoolean("showTime", showTime);
                 editor.apply();
                 return true;
+            case R.id.food:
+                startActivity(new Intent(Schedule.this, Food.class));
+                return true;
+            case R.id.grades:
+                startActivity(new Intent(Schedule.this, Grades.class));
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static Bitmap changeBitmapContrastBrightness(Bitmap bmp, float contrast, float brightness)
+    {
+        ColorMatrix cm = new ColorMatrix(new float[]
+                {
+                        contrast, 0, 0, 0, brightness,
+                        0, contrast, 0, 0, brightness,
+                        0, 0, contrast, 0, brightness,
+                        0, 0, 0, 1, 0
+                });
+
+        Bitmap ret = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), bmp.getConfig());
+
+        Canvas canvas = new Canvas(ret);
+
+        Paint paint = new Paint();
+        paint.setColorFilter(new ColorMatrixColorFilter(cm));
+        canvas.drawBitmap(bmp, 0, 0, paint);
+
+        return ret;
     }
 }

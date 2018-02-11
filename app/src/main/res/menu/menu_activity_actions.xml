@@ -30,6 +30,10 @@
                 android:showAsAction="never"
                 android:title="Напишете отзив"/>
             <item
+                android:id="@+id/theme"
+                android:showAsAction="never"
+                android:title="Тъмна тема"/>
+            <item
                 android:id="@+id/donate"
                 android:showAsAction="never"
                 android:title="Дарете PIVX"/>

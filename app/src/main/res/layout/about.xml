@@ -28,16 +28,16 @@
         android:gravity="center"
         android:layout_centerHorizontal="true" />
 
-    <ImageButton
-        android:layout_width="64sp"
-        android:layout_height="64sp"
-        android:id="@+id/ibT"
-        android:paddingTop="8dp"
-        android:src="@drawable/telegram"
-        android:scaleType="fitCenter"
-        android:background="@null"
-        android:layout_below="@+id/tvDev"
-        android:layout_centerHorizontal="true" />
+        <ImageButton
+            android:id="@+id/ibT"
+            android:layout_width="64sp"
+            android:layout_height="64sp"
+            android:layout_below="@+id/tvDev"
+            android:layout_centerHorizontal="true"
+            android:background="@null"
+            android:paddingTop="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/telegram" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

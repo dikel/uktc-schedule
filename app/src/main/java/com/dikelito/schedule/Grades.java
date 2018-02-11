@@ -1,6 +1,8 @@
 package com.dikelito.schedule;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,6 +15,13 @@ public class Grades extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int theme = sharedPreferences.getInt("Theme", R.style.AppTheme);
+        if(theme == R.style.AppThemeDark) {
+            setTheme(R.style.AppThemeDark_DarkActionBar);
+        } else {
+            setTheme(R.style.AppTheme_DarkActionBar);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grades);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

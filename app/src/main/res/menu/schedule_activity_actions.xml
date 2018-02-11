@@ -15,6 +15,14 @@
                 android:id="@+id/time"
                 android:showAsAction="never"
                 android:title="Скрий лентата с часове"/>
+            <item
+                android:id="@+id/food"
+                android:showAsAction="never"
+                android:title="Седмично меню"/>
+            <item
+                android:id="@+id/grades"
+                android:showAsAction="never"
+                android:title="Електронен дневник"/>
         </menu>
     </item>
 </menu>

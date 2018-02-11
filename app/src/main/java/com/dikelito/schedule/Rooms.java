@@ -10,14 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class Rooms extends Fragment {
+import org.json.JSONArray;
+import org.json.JSONException;
 
-    private String title;
-    private int page;
-    public static ListView listView;
-    String rooms[] = {"220", "221", "316", "317", "207", "208", "209", "210", "211", "212", "213",
-            "214", "215", "219", "222", "223", "309", "310", "311", "312", "313", "314", "315",
-            "319", "403", "404", "405", "406", "407", "408", "409", "410", "411", "412", "114"};
+public class Rooms extends Fragment {
 
     public static Rooms newInstance(int page, String title) {
         Rooms fragmentFirst = new Rooms();
@@ -29,26 +25,41 @@ public class Rooms extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        page = getArguments().getInt("someInt", 0);
-        title = getArguments().getString("someTitle");
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rooms, container, false);
-        listView = (ListView) view.findViewById(R.id.rooms_listview);
-        listView.setAdapter(new ArrayAdapter<>(getContext(), R.layout.list, rooms));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Schedule.cls = rooms[position];
-                Schedule.thing = "Стая";
-                startActivity(new Intent(getActivity(), Schedule.class));
+        if (MainActivity.jsonObject != null) {
+            try {
+                final JSONArray jsonArray = MainActivity.jsonObject.getJSONArray("roomsArray");
+
+                int length = jsonArray.length();
+                String[] stringsArray = new String[length];
+                for (int i = 0; i < length; i++) {
+                    stringsArray[i] = jsonArray.getString(i).replace("r", "");
+                }
+
+                ListView listView = view.findViewById(R.id.rooms_listview);
+                listView.setAdapter(new ArrayAdapter<>(getContext(), R.layout.list, stringsArray));
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        if (MainActivity.jsonObject != null) {
+                            Intent intent = new Intent(getActivity(), Schedule.class);
+                            intent.putExtra("type", "rooms");
+                            try {
+                                intent.putExtra("name", jsonArray.getString(position));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            startActivity(intent);
+                        }
+                    } // Display message!
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+        }
         return view;
     }
 }

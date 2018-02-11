@@ -10,13 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class Students extends Fragment {
+import org.json.JSONArray;
+import org.json.JSONException;
 
-    private String title;
-    private int page;
-    public static ListView listView;
-    String students[] = {"171", "172", "173", "174", "175", "161", "162", "163", "164", "165", "151",
-            "152", "153", "154", "155", "141", "142", "143", "144", "131", "132", "133", "134"};
+public class Students extends Fragment {
 
     public static Students newInstance(int page, String title) {
         Students fragmentFirst = new Students();
@@ -28,26 +25,42 @@ public class Students extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        page = getArguments().getInt("someInt", 0);
-        title = getArguments().getString("someTitle");
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_students, container, false);
-        listView = (ListView) view.findViewById(R.id.std_listview);
-        listView.setAdapter(new ArrayAdapter<>(getContext(), R.layout.list, students));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Schedule.cls = students[position];
-                Schedule.thing = "Курс";
-                startActivity(new Intent(getActivity(), Schedule.class));
+        if (MainActivity.jsonObject != null) {
+            try {
+                final JSONArray jsonArray = MainActivity.jsonObject.getJSONArray("studentsArray");
+
+                int length = jsonArray.length();
+                String[] stringsArray = new String[length];
+                for (int i = 0; i < length; i++) {
+                    stringsArray[i] = jsonArray.getString(i).replace("s", "");
+                }
+
+                ListView listView = view.findViewById(R.id.std_listview);
+                listView.setAdapter(new ArrayAdapter<>(getContext(), R.layout.list, stringsArray));
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        if (MainActivity.jsonObject != null) {
+                            Intent intent = new Intent(getActivity(), Schedule.class);
+                            intent.putExtra("type", "students");
+                            try {
+                                intent.putExtra("name", jsonArray.getString(position));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            startActivity(intent);
+                        } // Display message!
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+        }
         return view;
     }
 }

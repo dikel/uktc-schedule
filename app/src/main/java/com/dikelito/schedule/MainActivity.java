@@ -5,7 +5,6 @@ import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -28,9 +27,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -39,11 +41,29 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private SearchView mSearchView;
     final String emailAddress[] = {"dikelito@tutamail.com"};
     SharedPreferences sharedPreferences;
+    String version = "0000-00-00";
+    int theme;
+    public static JSONObject jsonObject = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        theme = sharedPreferences.getInt("Theme", R.style.AppTheme);
+        setTheme(theme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String jsonString = sharedPreferences.getString("json", null);
+        if (jsonString != null) {
+            try {
+                jsonObject = new JSONObject(sharedPreferences.getString("json", null));
+                version = jsonObject.getString("version");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        new checkForUpdate(this).execute(getResources().getString(R.string.serverIP), version);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,15 +72,20 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         mViewPager.setAdapter(mSectionsPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Schedule.scls = sharedPreferences.getString("scls", null);
-        Schedule.thing = sharedPreferences.getString("thing", null);
-        Schedule.num = sharedPreferences.getInt("num", 52);
-        if (Schedule.scls != null) {
-            Schedule.cls = Schedule.scls;
-            startActivity(new Intent(MainActivity.this, Schedule.class));
+        String defaultSchedule = sharedPreferences.getString("defaultSchedule", null);
+
+        if (defaultSchedule != null) {
+            String defaultType = sharedPreferences.getString("type", null);
+            Intent intent = new Intent(this, Schedule.class);
+            intent.putExtra("name", defaultSchedule);
+            intent.putExtra("type", defaultType);
+            if(defaultType.equals("teachers")) {
+                String teacherName =  sharedPreferences.getString("teacherName", null);
+                intent.putExtra("teacherName", teacherName);
+            }
+            startActivity(intent);
         }
-        if (android.os.Build.VERSION.SDK_INT >= 23){
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
             int hasReadPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             if (hasReadPermission != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10);
@@ -89,6 +114,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         MenuItem searchItem = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) searchItem.getActionView();
         setupSearchView(searchItem);
+        MenuItem item = menu.findItem(R.id.theme);
+        if (theme == R.style.AppThemeDark){
+            item.setTitle("Светла тема");
+        }else{
+            item.setTitle("Тъмна тема");
+        }
         return true;
     }
 
@@ -119,6 +150,19 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 return true;
             case R.id.grades:
                 startActivity(new Intent(MainActivity.this, Grades.class));
+                return true;
+            case R.id.theme:
+                if (theme == R.style.AppThemeDark) {
+                    theme = R.style.AppTheme;
+                    item.setTitle("Тъмна тема");
+                } else {
+                    theme = R.style.AppThemeDark;
+                    item.setTitle("Светла тема");
+                }
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("Theme", theme);
+                editor.apply();
+                startActivity(new Intent(this, MainActivity.class));
                 return true;
             case R.id.donate:
                 AlertDialog.Builder builder;
