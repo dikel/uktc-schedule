@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Програма</string>
-    <string name="version">Версия 18.02.1</string>
-    <string name="serverIP">http://87.118.159.27</string>
+    <string name="version">Версия 18.09</string>
+    <string name="serverIP">http://87.118.159.27:14210</string>
     <string name="developer">Направил:\nДеян Димитров 14210</string>
     <string name="support">\nС благодарност към:\nБиляна Борисова 14203\n\nХардуерен съпорт:\nИван \'ErethoroN\' Спасов 14213\n\nМеню актуализатор:\nГеорги Барбов 14209</string>
     <string name="trademark">ПГ по КТС и логото на ПГ по КТС са запазена марка на ПГ по КТС - гр. Правец.</string>

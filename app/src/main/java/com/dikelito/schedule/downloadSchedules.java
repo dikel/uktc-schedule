@@ -1,5 +1,6 @@
 package com.dikelito.schedule;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -28,11 +29,11 @@ import java.net.URL;
 public class downloadSchedules extends AsyncTask<JSONObject, Integer, Void> {
 
     private Context context;
-    NotificationManager notificationManager;
-    AlertDialog dialog;
-    NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-    boolean firstTime = true;
-    JSONObject json;
+    private NotificationManager notificationManager;
+    private AlertDialog dialog;
+    private NotificationCompat.Builder builder;
+    private boolean firstNotificationShow = true;
+    private JSONObject json;
 
     public downloadSchedules(Context context){
         this.context = context;
@@ -47,7 +48,7 @@ public class downloadSchedules extends AsyncTask<JSONObject, Integer, Void> {
         } else {
             alertBuilder = new AlertDialog.Builder(context);
         }
-        alertBuilder.setTitle("Моля изчакайте!").setMessage("Няма да отнеме дълго, обещавам!");
+        alertBuilder.setTitle("Моля изчакайте!").setMessage("Няма да отнеме дълго!");
         dialog = alertBuilder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
@@ -112,11 +113,13 @@ public class downloadSchedules extends AsyncTask<JSONObject, Integer, Void> {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("json", json.toString());
         editor.apply();
-        context.startActivity(new Intent(context, MainActivity.class));
+        Activity a = (Activity) context;
+        a.recreate();
+//        context.startActivity(new Intent(context, MainActivity.class));
     }
 
     private void updateNotification(String message, int progress, int max) {
-        if (firstTime) {
+        if (firstNotificationShow) {
             Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             builder = new NotificationCompat.Builder(context);
             Intent intent = new Intent(context, MainActivity.class);
@@ -128,7 +131,7 @@ public class downloadSchedules extends AsyncTask<JSONObject, Integer, Void> {
                     .setSound(uri)
                     .setSmallIcon(R.drawable.notificaton_logo)
                     .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.logo));
-            firstTime = false;
+            firstNotificationShow = false;
         }
         builder.setContentText(message)
                 .setProgress(max, progress, false);

@@ -33,6 +33,8 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -63,8 +65,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             }
         }
 
-        new checkForUpdate(this).execute(getResources().getString(R.string.serverIP), version);
+        File dir = new File(this.getExternalFilesDir(null), "students");
+        if (!dir.exists() || dir.list().length == 0) {
+            version = "0000-00-00";
+        }
 
+        new checkForUpdate(this).execute(getResources().getString(R.string.serverIP), version);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -162,7 +168,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("Theme", theme);
                 editor.apply();
-                startActivity(new Intent(this, MainActivity.class));
+                setTheme(theme);
+                recreate();
+//                startActivity(new Intent(this, MainActivity.class));
                 return true;
             case R.id.donate:
                 AlertDialog.Builder builder;
@@ -201,6 +209,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     protected boolean isAlwaysExpanded() {
         return false;
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

@@ -58,7 +58,11 @@ public class Schedule extends AppCompatActivity {
                 title = "Учител " + teacherName;
                 break;
             case "rooms":
-                title = "Стая " + name.replace("r", "");
+                if (name.startsWith("r")) {
+                    title = "Стая " + name.replace("r", "");
+                } else {
+                    title = "Зала за асемблиране";
+                }
                 break;
         }
         getSupportActionBar().setTitle(title);

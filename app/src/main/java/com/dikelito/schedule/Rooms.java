@@ -35,7 +35,11 @@ public class Rooms extends Fragment {
                 int length = jsonArray.length();
                 String[] stringsArray = new String[length];
                 for (int i = 0; i < length; i++) {
-                    stringsArray[i] = jsonArray.getString(i).replace("r", "");
+                    if(jsonArray.getString(i).equals("assemble")) {
+                        stringsArray[i] = "Зала за асемблиране";
+                    } else {
+                        stringsArray[i] = jsonArray.getString(i).replace("r", "");
+                    }
                 }
 
                 ListView listView = view.findViewById(R.id.rooms_listview);
