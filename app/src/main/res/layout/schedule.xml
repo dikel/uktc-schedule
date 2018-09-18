@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-            <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/sv">
-                    <ImageView
-                    android:id="@+id/iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                        android:adjustViewBounds="true"/>
-            </HorizontalScrollView>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <HorizontalScrollView
+        android:id="@+id/sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <ImageView
-            android:id="@+id/time"
+            android:id="@+id/iv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/time"
             android:adjustViewBounds="true" />
-        </RelativeLayout>
+    </HorizontalScrollView>
+
+    <ImageView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:src="@drawable/time" />
 </RelativeLayout>
