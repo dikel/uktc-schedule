@@ -14,17 +14,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.util.Calendar;
 
 public class Schedule extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     MenuItem item, itemTime;
     ImageView iv, ivTime;
-    HorizontalScrollView sv;
+    HorizontalScrollView scrollView;
 
     String name, type, defaultSchedule, teacherName;
     boolean showTime = false;
@@ -81,7 +83,18 @@ public class Schedule extends AppCompatActivity {
         defaultSchedule = sharedPreferences.getString("defaultSchedule", null);
         showTime = sharedPreferences.getBoolean("showTime", false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        sv = (HorizontalScrollView) findViewById(R.id.sv);
+
+        scrollView = (HorizontalScrollView) findViewById(R.id.sv);
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+                int scheduleSize = iv.getWidth();
+                int timeSize = scheduleSize / 10;
+                int offset = (day == 1 || day == 7) ? 0 : day - 2;
+                scrollView.scrollTo(offset * ((scheduleSize - timeSize) / 5), 0);
+            }
+        });
     }
 
     @Override
@@ -151,8 +164,7 @@ public class Schedule extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static Bitmap changeBitmapContrastBrightness(Bitmap bmp, float contrast, float brightness)
-    {
+    public static Bitmap changeBitmapContrastBrightness(Bitmap bmp, float contrast, float brightness) {
         ColorMatrix cm = new ColorMatrix(new float[]
                 {
                         contrast, 0, 0, 0, brightness,
