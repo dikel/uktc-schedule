@@ -13,6 +13,8 @@ import android.widget.ListView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.Arrays;
+
 public class Teachers extends Fragment {
 
     public static ArrayAdapter<String> adapter;
@@ -41,8 +43,11 @@ public class Teachers extends Fragment {
                     stringsArray[i] = teachersNames.getString(i);
                 }
 
+                final String[] sortedStringsArray = stringsArray.clone();
+                Arrays.sort(sortedStringsArray);
+
                 ListView listView = view.findViewById(R.id.tchs_listview);
-                adapter = new ArrayAdapter<>(getContext(), R.layout.list, R.id.list_item, stringsArray);
+                adapter = new ArrayAdapter<>(getContext(), R.layout.list, R.id.list_item, sortedStringsArray);
                 listView.setAdapter(adapter);
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

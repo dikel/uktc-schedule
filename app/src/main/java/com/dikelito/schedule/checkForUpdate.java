@@ -36,6 +36,7 @@ public class checkForUpdate extends AsyncTask<String, Void, JSONObject> {
             currentVersion = strings[1];
             URL url = new URL(serverIP + "/uktc/check-for-update?ver=" + currentVersion);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
             try {
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                 InputStreamReader inputStreamReader = new InputStreamReader(in);
