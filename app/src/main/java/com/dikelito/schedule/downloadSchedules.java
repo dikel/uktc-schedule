@@ -52,7 +52,7 @@ public class downloadSchedules extends AsyncTask<JSONObject, Integer, Void> {
         dialog = alertBuilder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-        builder = new NotificationCompat.Builder(context);
+        builder = new NotificationCompat.Builder(context, "14210");
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         updateNotification("0/0", 0, 100);
     }
@@ -115,13 +115,12 @@ public class downloadSchedules extends AsyncTask<JSONObject, Integer, Void> {
         editor.apply();
         Activity a = (Activity) context;
         a.recreate();
-//        context.startActivity(new Intent(context, MainActivity.class));
     }
 
     private void updateNotification(String message, int progress, int max) {
         if (firstNotificationShow) {
             Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            builder = new NotificationCompat.Builder(context);
+            builder = new NotificationCompat.Builder(context, "14210");
             Intent intent = new Intent(context, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 14210, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentTitle("Downloading")
